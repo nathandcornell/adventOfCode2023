@@ -1,0 +1,17 @@
+{
+  "compilerOptions" : {
+    "lib": ["es6"],
+    "module": "commonjs",
+    "outDir": "dist",
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext"
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "**/*.js",
+    "./node_modules"
+  ]
+}

@@ -15,42 +15,54 @@ const getValues = (): Promise<string[]> => {
   })
 }
 
+const digitNames = [
+  ["one", "1"],
+  ["two", "2"],
+  ["three", "3"],
+  ["four", "4"],
+  ["five", "5"],
+  ["six", "6"],
+  ["seven", "7"],
+  ["eight", "8"],
+  ["nine", "9"]
+]
+
+const namesToDigits = (original: string): string => {
+  const newStr: string[] = []
+
+  for (let i = 0; i < original.length; i++) {
+    const iChar = original.charAt(i)
+
+    if (Number.isNaN(Number.parseInt(iChar))) {
+      for (const [name, value] of digitNames) {
+        const endIdx = i + name.length
+
+        if (endIdx > original.length) {
+          continue
+        }
+
+        const sub = original.slice(i, endIdx)
+
+        if (sub === name) {
+          newStr.push(value)
+        }
+      }
+    } else {
+      newStr.push(iChar)
+    }
+  }
+
+  return newStr.join('')
+}
+
 getValues().then((values) => {
   let sum = 0
 
-  for (const value of values) {
-    console.log(value)
-    let ptr1 = 0
-    let ptr2 = value.length - 1
+  for (const originalValue of values) {
+    const value = namesToDigits(originalValue)
+    const number = `${value[0]}${value[value.length - 1]}`
 
-    let first: string | null = null;
-    let second: string | null = null;
-
-    while (first === null || second === null) {
-      if (first === null) {
-        const char1: string = value.charAt(ptr1) || ""
-        const int1 = Number.parseInt(char1)
-
-        if (Number.isNaN(int1)) {
-          ptr1++
-        } else {
-          first = char1
-        }
-      }
-
-      if (second === null) {
-        const char2: string = value.charAt(ptr2) || ""
-        const int2 = Number.parseInt(char2)
-
-        if (Number.isNaN(int2)) {
-          ptr2--
-        } else {
-            second = char2
-          }
-      }
-    }
-
-    sum += Number.parseInt(`${first}${second}`)
+    sum += Number.parseInt(number)
   }
 
   console.log(sum)
